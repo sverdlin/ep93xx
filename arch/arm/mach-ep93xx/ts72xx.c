@@ -33,11 +33,6 @@
 
 static struct map_desc ts72xx_io_desc[] __initdata = {
 	{
-		.virtual	= (unsigned long)TS72XX_MODEL_VIRT_BASE,
-		.pfn		= __phys_to_pfn(TS72XX_MODEL_PHYS_BASE),
-		.length		= TS72XX_MODEL_SIZE,
-		.type		= MT_DEVICE,
-	}, {
 		.virtual	= (unsigned long)TS72XX_OPTIONS_VIRT_BASE,
 		.pfn		= __phys_to_pfn(TS72XX_OPTIONS_PHYS_BASE),
 		.length		= TS72XX_OPTIONS_SIZE,
@@ -50,12 +45,26 @@ static struct map_desc ts72xx_io_desc[] __initdata = {
 	}
 };
 
-static void __init ts72xx_map_io(void)
+static struct map_desc ts72xx_common_io_desc[] __initdata = {
+	{
+		.virtual	= (unsigned long)TS72XX_MODEL_VIRT_BASE,
+		.pfn		= __phys_to_pfn(TS72XX_MODEL_PHYS_BASE),
+		.length		= TS72XX_MODEL_SIZE,
+		.type		= MT_DEVICE,
+	}
+};
+
+void __init ts72xx_common_map_io(void)
 {
 	ep93xx_map_io();
-	iotable_init(ts72xx_io_desc, ARRAY_SIZE(ts72xx_io_desc));
+	iotable_init(ts72xx_common_io_desc, ARRAY_SIZE(ts72xx_common_io_desc));
 }
 
+static void __init ts72xx_map_io(void)
+{
+	ts72xx_common_map_io();
+	iotable_init(ts72xx_io_desc, ARRAY_SIZE(ts72xx_io_desc));
+}
 
 /*************************************************************************
  * NAND flash
