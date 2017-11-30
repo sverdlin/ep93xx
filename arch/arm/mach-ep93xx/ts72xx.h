@@ -42,6 +42,11 @@
 #define TS72XX_OPTIONS2_TS9420		0x04
 #define TS72XX_OPTIONS2_TS9420_BOOT	0x02
 
+/* BK3 specific defines */
+#define BK3_CPLDVER_PHYS_BASE		0x23400000
+#define BK3_CPLDVER_VIRT_BASE		0xfebfd000
+#define BK3_CPLDVER_SIZE		0x00001000
+
 #ifndef __ASSEMBLY__
 
 static inline int ts72xx_model(void)
